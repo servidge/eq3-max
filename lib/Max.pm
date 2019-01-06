@@ -125,6 +125,16 @@ sub _process_L {
         my $device = $self->{devices}{$addr}
             or warn "Unexpected device " . unpack("H*", $addr);
 
+if (  defined $date ) {
+print "DAAAAAAAAAAAAAATE is set ----------------$date-\n";
+}
+if (  defined $time ) {
+print "TTTTTTTTTTTTTIME  is set ----------------$time-\n";
+}
+if (  defined $temp ) {
+print "TTTTTTTTTTTTTTEMP is set ----------------$temp-\n";
+}
+
         $device->_set(flags => {
             link_error    => !! ($flags & 0x0040),
             battery       => !! ($flags & 0x0080),
