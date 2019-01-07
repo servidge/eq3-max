@@ -151,6 +151,7 @@ print "TTTTTTTTTTTTTTEMP is set ----------------$temp-\n";
                 setpoint    => $setpoint / 2,
                 temperature => $temp / 10,
                 valve       => $valve,
+                valtemp   => $date / 10,
             );
         } else {
             $device->_set(
