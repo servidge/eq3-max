@@ -119,19 +119,19 @@ sub _process_L {
     my $data = decode_base64 $base64;
     my @devices = unpack "(C/a)*", $data;
     for my $devicedata (@devices) {
-        my ($addr, $loff4unknown, $flags, $valve, $setpoint, $date, $time, $temp)
+        my ($addr, $loff4unknown, $flags, $valve, $setpoint, $loff1011, $time, $temp)
             = unpack "a3 C n C C n C C", $devicedata;
 
         my $device = $self->{devices}{$addr}
             or warn "Unexpected device " . unpack("H*", $addr);
 
-if (  defined $date ) {
-print "DAAAAAAAAAAAAAATE is set ----------------$date-\n";
+if ( defined $loff1011 ) {
+print "DAAAAAAAAAAAAAATE is set ----------------$loff1011-\n";
 }
-if (  defined $time ) {
+if ( defined $time ) {
 print "TTTTTTTTTTTTTIME  is set ----------------$time-\n";
 }
-if (  defined $temp ) {
+if ( defined $temp ) {
 print "TTTTTTTTTTTTTTEMP is set ----------------$temp-\n";
 }
 
@@ -143,7 +143,7 @@ print "TTTTTTTTTTTTTTEMP is set ----------------$temp-\n";
             invalid       => !  ($flags & 0x1000),
         });
 
-        if ((  defined $valve ) && ( defined $setpoint )) {
+        if (( defined $valve ) && ( defined $setpoint )) {
             $temp |= !!($setpoint & 0x80) << 8;
             $setpoint &= 0x7F;
             $device->_set(
@@ -151,12 +151,17 @@ print "TTTTTTTTTTTTTTEMP is set ----------------$temp-\n";
                 setpoint    => $setpoint / 2,
                 temperature => $temp / 10,
                 valve       => $valve,
-                valtemp   => $date / 10,
             );
+            if ( $device->has_valve ) {
+                $device->_set(
+                    temperature => $loff1011 / 10,
+                );
+                print "HAS_VALVE----------------temperature set-to-$loff1011-\n";
+            }
         } else {
-            $device->_set(
-                mode        => $flags & 0x0003,
-            );
+                $device->_set(
+                    mode        => $flags & 0x0003,
+                );
         }
     }
 }

@@ -215,14 +215,12 @@ sub do_temp {
 
         for my $device (@devices) {
         next if $device->is_cube;
-        my $valtemp;
         if ($device->has_valve) {
-            $valtemp = $device->valtemp;
             printf(
                 "    %-${width}s %s %s\n",
                 $device->display_name(1),
                 "dummytemp",
-                $valtemp,
+                $device->temperature,
             );
         }
         }
