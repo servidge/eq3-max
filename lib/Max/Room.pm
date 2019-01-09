@@ -60,6 +60,9 @@ sub temperature {
     for my $device ($self->devices) {
         return $device->temperature if $device->has_temperature;
     }
+    for my $device ($self->devices) {
+        return $device->temperature if $device->has_valve;
+    }
     return undef;
 }
 
