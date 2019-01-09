@@ -151,10 +151,12 @@ print "TTTTTTTTTTTTTTEMP is set ----------------$temp-\n";
                 setpoint    => $setpoint / 2,
                 temperature => $temp / 10,
                 valve       => $valve,
+                tempmarker  => "°C",
             );
             if ( $device->has_valve ) {
                 $device->_set(
                     temperature => $loff1011 / 10,
+                    tempmarker  => "°C** not reliable, value of the last transmission on change of valve position or set temperature",
                 );
                 print "HAS_VALVE----------------temperature set-to-$loff1011-\n";
             }

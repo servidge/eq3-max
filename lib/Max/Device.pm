@@ -33,6 +33,7 @@ sub serial      { shift->{serial} }
 sub setpoint    { shift->{setpoint} }
 sub valve       { shift->{valve} }
 sub temperature { shift->{temperature} }
+sub tempmarker  { shift->{tempmarker} }
 
 sub type_num {        shift->{type}  }
 sub type     { $types{shift->{type}} }

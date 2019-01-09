@@ -49,6 +49,14 @@ sub display_name {
     return "room " . $self->{id};
 }
 
+sub tempmarker {
+    my ($self) = @_;
+    for my $device ($self->devices) {
+        return $device->tempmarker if $device->has_setpoint;
+    }
+    return undef;
+}
+
 sub devices {
     my ($self) = @_;
     return @{ $self->{devices} }{ sort keys %{$self->{devices}} };
