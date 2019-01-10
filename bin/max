@@ -207,6 +207,8 @@ sub do_tempstatus {
 
     my $width = max(map { length $_->display_name(1) } $max->devices);
 
+    my $footertempstatus = 0;
+
     for my $room ($max->rooms) {
         my @devices = $room->devices;
         next if @devices == 1 and $devices[0]->is_cube;
@@ -217,14 +219,20 @@ sub do_tempstatus {
         next if $device->is_cube;
             if ($device->has_setpoint) {
                 printf(
-                    "    %-${width}s %s %s\n",
+                    "    %-${width}s %s %s %s\n",
                     $device->display_name(1),
                     "temperature>",
                     $device->temperature,
                     $device->tempmarker,
                 );
+                if ( $device->tempmarker =~ /\*/ ) {
+                    $footertempstatus = "\n* Caution, not reliable, \nvalue of the last transmission on change of valve position or set temperature!\n";
+                }
             }
         }
+    }
+    if ($footertempstatus) {
+        print $footertempstatus ; 
     }
 }
 
