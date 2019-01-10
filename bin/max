@@ -219,9 +219,9 @@ sub do_tempstatus {
         next if $device->is_cube;
             if ($device->has_setpoint) {
                 printf(
-                    "    %-${width}s %s %s %s\n",
+                    "    %-${width}s %s %4.1f %s\n",
                     $device->display_name(1),
-                    "temperature>",
+                    "temperature:",
                     $device->temperature,
                     $device->tempmarker,
                 );
