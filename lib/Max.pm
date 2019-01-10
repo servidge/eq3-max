@@ -125,16 +125,6 @@ sub _process_L {
         my $device = $self->{devices}{$addr}
             or warn "Unexpected device " . unpack("H*", $addr);
 
-if ( defined $loff1011 ) {
-print "DAAAAAAAAAAAAAATE is set ----------------$loff1011-\n";
-}
-if ( defined $time ) {
-print "TTTTTTTTTTTTTIME  is set ----------------$time-\n";
-}
-if ( defined $temp ) {
-print "TTTTTTTTTTTTTTEMP is set ----------------$temp-\n";
-}
-
         $device->_set(flags => {
             link_error    => !! ($flags & 0x0040),
             battery       => !! ($flags & 0x0080),
@@ -156,9 +146,8 @@ print "TTTTTTTTTTTTTTEMP is set ----------------$temp-\n";
             if ( $device->has_valve ) {
                 $device->_set(
                     temperature => $loff1011 / 10,
-                    tempmarker  => "°C** not reliable, value of the last transmission on change of valve position or set temperature",
+                    tempmarker  => "°C *",
                 );
-                print "HAS_VALVE----------------temperature set-to-$loff1011-\n";
             }
         } else {
                 $device->_set(

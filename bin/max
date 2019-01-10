@@ -202,7 +202,7 @@ sub do_batstatus {
     }
 }
 
-sub do_temp {
+sub do_tempstatus {
     $max ||= Max->connect($host);
 
     my $width = max(map { length $_->display_name(1) } $max->devices);
@@ -215,14 +215,15 @@ sub do_temp {
 
         for my $device (@devices) {
         next if $device->is_cube;
-        if ($device->has_valve) {
-            printf(
-                "    %-${width}s %s %s\n",
-                $device->display_name(1),
-                "dummytemp",
-                $device->temperature,
-            );
-        }
+            if ($device->has_setpoint) {
+                printf(
+                    "    %-${width}s %s %s\n",
+                    $device->display_name(1),
+                    "temperature>",
+                    $device->temperature,
+                    $device->tempmarker,
+                );
+            }
         }
     }
 }
